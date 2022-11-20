@@ -3,8 +3,10 @@ const url = require('url');
 
 const o = url.parse(process.env.REDIS_URL);
 const client = redis.createClient(o.port, o.hostname);
-const auth = o.auth.split(':');
-if (auth) client.auth(auth[1]);
+if (o.auth) {
+  const auth = o.auth.split(':');
+  if (auth) client.auth(auth[1]);
+}
 
 module.exports = (fn, ...args) =>
   new Promise((resolve, reject) =>
